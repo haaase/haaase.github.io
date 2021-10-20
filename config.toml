@@ -1,0 +1,32 @@
+# The URL the site will be built for
+base_url = "https://julian-haas.de"
+
+theme = "anatole-zola"
+default_language = "en"
+
+compile_sass = true
+ignored_content = ["*.xcf"]
+
+minify_html = true
+
+[extra]
+show_navigation = false
+
+[extra.social]
+github = "haaase"
+twitter = "haaase"
+mail = "jhaas[ät]mpi-sws[dot]org"
+
+[languages.en]
+title = "Julian Haas"
+# description = "My personal homepage."
+
+[languages.en.translations]
+about = "About"
+home = "Home"
+tags = "Tags"
+archive = "Archive"
+links = "Links"
+next_page = "Next Page"
+last_page = "Last Page"
+contact = "Contact"
