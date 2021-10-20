@@ -62,6 +62,9 @@
     {%- if config.extra.social.flickr -%}
     <li><a href="https://www.flickr.com/photos/{{ config.extra.social.flickr }}"><i class="fab fa-flickr"></i></a></li>
     {%- endif -%}
+    {%- if config.extra.social.lastfm -%}
+    <li><a href="https://www.last.fm/user/{{ config.extra.social.lastfm }}"><i class="fa-brands fa-lastfm"></i></a></li>
+    {%- endif -%}
     {%- if config.extra.social.mail -%}
     <li><a href="mailto:{{ config.extra.social.mail }}"><i class="fa-solid fa-envelope"></i></a></li>
     {%- endif -%}

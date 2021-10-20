@@ -13,6 +13,7 @@ show_navigation = false
 [extra.social]
 github = "haaase"
 twitter = "haaase"
+lastfm = "couchpotato321"
 mail = "jhaas[ät]mpi-sws[dot]org"
 
 [languages.en]
