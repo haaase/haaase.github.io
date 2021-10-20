@@ -7,8 +7,6 @@ default_language = "en"
 compile_sass = true
 ignored_content = ["*.xcf"]
 
-minify_html = true
-
 [extra]
 show_navigation = false
 
