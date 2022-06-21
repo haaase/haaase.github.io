@@ -14,11 +14,11 @@ show_navigation = false
 github = "haaase"
 twitter = "haaase"
 lastfm = "couchpotato321"
-mail = "jhaas[ät]mpi-sws[dot]org"
+mail = "haas[ät]cs[dot]tu-darmstadt[dot]de"
 
 [languages.en]
 title = "Julian Haas"
-# description = "My personal homepage."
+# description = "Julian Haas' Homepage"
 
 [languages.en.translations]
 about = "About"
