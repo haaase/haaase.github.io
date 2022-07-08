@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Programming Support for Safe Local-First Software</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Programming Support for Safe Local-First Software</h1>
+</header>
+<p>Local-First Software <span class="citation"
+data-cites="kleppmann2019">[<a href="#ref-kleppmann2019"
+role="doc-biblioref">5</a>]</span> is a novel programming paradigm which
+tries to give users all the benefits of modern distributed software
+(e.g. realtime collaboration, multi-device sync) without relying on the
+cloud.<br />
+This provides several benefits: 1) It allows users to retain ownership
+of their data and control exactly where it is stored and processed. 2)
+Local-First software works without an internet connection and can thus
+be used under unstable network connections such as on trains or subways.
+3) It makes users independent of cloud providers and their data centres:
+unlike cloud software, local-first software continues to work even when
+providers stop offering their services.</p>
+<p>Unfortunately, local-first software is hard to implement. This is
+especially true if the software has certain safety or security
+requirements that one wants to ensure. In the local-first setting,
+applications are inherently distributed: Changes can happen concurrently
+on multiple devices and will only get merged once these devices
+reestablish a network connection. This makes it hard for developers to
+anticipate potential conflicts and their effects on the application
+state.</p>
+<p>We try to build programming abstractions and languages which
+facilitate the design of such applications. In LoRe, our current
+programming language prototype, developers are able to express safety
+properties as logical formulae inside their local-first application.
+These <em>safety-invariants</em> are then checked during compile time by
+employing certain deductive-verification techniques <span
+class="citation" data-cites="MuellerSchwerhoffSummers16">[<a
+href="#ref-MuellerSchwerhoffSummers16"
+role="doc-biblioref">6</a>]</span>.</p>
+<p>Local-First software still presents several research problems that
+could be tackled as part of a bachelor’s/master’s thesis:</p>
+<ol type="1">
+<li><p><strong>Verification of replicated datatypes (in a proof
+assistant):</strong> Conflict-Free Replicated datatypes (CRDTs) <span
+class="citation" data-cites="Shapiro2011 gomes2017 Almeida2018">[<a
+href="#ref-Almeida2018" role="doc-biblioref">1</a>,<a
+href="#ref-gomes2017" role="doc-biblioref">2</a>,<a
+href="#ref-Shapiro2011" role="doc-biblioref">7</a>]</span> form the
+backbone of most local-first applications and are used to synchronize
+data between the different devices. Existing programming languages for
+distributed/local-first applications often include RDTs as language
+primitives that can be used to construct programs on top of them.
+Following this approach, the correctness of the overall application
+depends on the correctness of the underlying RDT library. However,
+construction of correct AND efficient RDTs is notoriously hard and
+existing implementations often contain subtle bugs that are difficult to
+identify.<br />
+The candidate will verify several existing or custom RDT implementations
+in a proof assistant such as Isabelle/HOL or Coq with the goal of
+integrating these implementations in a local-first programming
+language.</p></li>
+<li><p><strong>Security challenges in local-first:</strong> Moving from
+a centralized cloud application to a local-first/peer-to-peer model can
+introduce several security challenges such as:</p>
+<ol type="1">
+<li>How can we deal with malicious update messages? Can we somehow
+“roll-back” changes when we learn that one of the participating devices
+has been compromised? Recent works <span class="citation"
+data-cites="kleppmann2022">[<a href="#ref-kleppmann2022"
+role="doc-biblioref">4</a>]</span> suggest strategies to make CRDTs more
+resilient to malicious updates which address some of these
+problems.</li>
+<li>How can we integrate access control into local-first applications?
+How can we handle key management/group membership when there is no
+single source of truth?</li>
+</ol>
+<p>The candidate will analyze one or more of these threat scenarios and
+ideally develop solutions to mitigate these on a
+programming-language/datatype level.</p></li>
+<li><p><strong>Evaluation of local-first software for crisis
+scenarios:</strong> Besides the general benefits, local-first software
+could prove to be useful in crisis scenarios (e.g. earth quakes, floods)
+where users face unreliable network conditions or can be completely off
+the grid for longer periods of time <span class="citation"
+data-cites="haesler2021">[<a href="#ref-haesler2021"
+role="doc-biblioref">3</a>]</span>. Designing software to be suited for
+these conditions presents several software engineering and HCI
+challenges such as “how do we communicate the current state of the
+network/data to the user?” or “how can we let users resolve merge
+conflicts in an intuitive and interactive way?”.<br />
+Ideally, the candidate will implement one or more local-first case
+studies for crisis scenarios and use these to analyze the involved
+software engineering challenges.</p></li>
+<li><p><strong>Integrating different means of communication/computation
+(peer-to-peer/cloud):</strong> While local-first software should always
+work without a connection to the cloud, some applications could benefit
+from offloading tasks (e.g. costly computations) to data centres.
+Seamlessly integrating these different kinds of execution environments
+with each other is far from trivial and can be a challenging task for
+developers. Programming languages that offer primitives for different
+communication strategies and allow to specify the location of different
+computations (e.g. tierless/choreographic languages) offer promising
+solutions in this area.<br />
+We are currently particularly interested in integrating
+<em>serveless</em> computations as a way to interact with cloud data
+centres. The candidate will develop programming abstractions for
+integrating serverless computations in a (local-first) reactive
+programming language. Ideally, these abstractions will be integrated
+with REScala<a href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>.</p></li>
+</ol>
+<hr />
+<div id="refs" class="references csl-bib-body" role="doc-bibliography">
+<div id="ref-Almeida2018" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[1] </div><div
+class="csl-right-inline">Paulo Sérgio Almeida, Ali Shoker, and Carlos
+Baquero. 2018. Delta state replicated data types. <em>Journal of
+Parallel and Distributed Computing</em> 111, (2018), 162–173.
+DOI:https://doi.org/<a
+href="https://doi.org/10.1016/j.jpdc.2017.08.003">10.1016/j.jpdc.2017.08.003</a></div>
+</div>
+<div id="ref-gomes2017" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[2] </div><div
+class="csl-right-inline">Victor B. F. Gomes, Martin Kleppmann, Dominic
+P. Mulligan, and Alastair R. Beresford. 2017. Verifying <span>Strong
+Eventual Consistency</span> in <span>Distributed Systems</span>.
+<em>Proceedings of the ACM on Programming Languages</em> 1, (2017),
+1–28. DOI:https://doi.org/<a
+href="https://doi.org/10.1145/3133933">10.1145/3133933</a></div>
+</div>
+<div id="ref-haesler2021" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[3] </div><div
+class="csl-right-inline">Steffen Haesler, Ragnar Mogk, Florentin Putz,
+Kevin T. Logan, Nadja Thiessen, Katharina Kleinschnitger, Lars
+Baumgärtner, Jan-Philipp Stroscher, Christian Reuter, Michele Knodt, and
+Matthias Hollick. 2021. Connected <span>Self-Organized Citizens</span>
+in <span>Crises</span>: <span>An Interdisciplinary Resilience
+Concept</span> for <span>Neighborhoods</span>. In <em>Companion
+<span>Publication</span> of the 2021 <span>Conference</span> on
+<span>Computer Supported Cooperative Work</span> and <span>Social
+Computing</span></em> (<span>CSCW</span> ’21), <span>Association for
+Computing Machinery</span>, <span>New York, NY, USA</span>, 62–66.
+DOI:https://doi.org/<a
+href="https://doi.org/10.1145/3462204.3481749">10.1145/3462204.3481749</a></div>
+</div>
+<div id="ref-kleppmann2022" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[4] </div><div
+class="csl-right-inline">Martin Kleppmann. 2022. Making <span>CRDTs
+Byzantine</span> fault tolerant. In <em>Proceedings of the 9th
+<span>Workshop</span> on <span>Principles</span> and
+<span>Practice</span> of <span>Consistency</span> for <span>Distributed
+Data</span></em> (<span>PaPoC</span> ’22), <span>Association for
+Computing Machinery</span>, <span>New York, NY, USA</span>, 8–15.
+DOI:https://doi.org/<a
+href="https://doi.org/10.1145/3517209.3524042">10.1145/3517209.3524042</a></div>
+</div>
+<div id="ref-kleppmann2019" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[5] </div><div
+class="csl-right-inline">Martin Kleppmann, Adam Wiggins, Peter van
+Hardenberg, and Mark McGranaghan. 2019. Local-first software: You own
+your data, in spite of the cloud. In <em>Proceedings of the 2019
+<span>ACM SIGPLAN International Symposium</span> on <span>New
+Ideas</span>, <span>New Paradigms</span>, and <span>Reflections</span>
+on <span>Programming</span> and <span>Software</span></em> (Onward!
+2019), <span>Association for Computing Machinery</span>, <span>New York,
+NY, USA</span>, 154–178. DOI:https://doi.org/<a
+href="https://doi.org/10.1145/3359591.3359737">10.1145/3359591.3359737</a></div>
+</div>
+<div id="ref-MuellerSchwerhoffSummers16" class="csl-entry"
+role="doc-biblioentry">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">P
+Müller, M Schwerhoff, and A J Summers. 2016. Viper: <span>A Verification
+Infrastructure</span> for <span>Permission-Based Reasoning</span>. In
+<em>Verification, <span>Model Checking</span>, and <span>Abstract
+Interpretation</span> (<span>VMCAI</span>)</em>,
+<span>Springer-Verlag</span>, <span>Berlin, Heidelberg</span>, 41–62.
+DOI:https://doi.org/<a
+href="https://doi.org/10.1007/978-3-662-49122-5_2">10.1007/978-3-662-49122-5_2</a></div>
+</div>
+<div id="ref-Shapiro2011" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[7] </div><div
+class="csl-right-inline">Marc Shapiro, Nuno Preguiça, Carlos Baquero,
+and Marek Zawirski. 2011. A comprehensive study of
+<span>Convergent</span> and <span>Commutative Replicated Data
+Types</span>. (2011), 50. Retrieved from <a
+href="http://hal.inria.fr/inria-00555588">http://hal.inria.fr/inria-00555588</a></div>
+</div>
+</div>
+<section class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>https://www.rescala-lang.com/<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
