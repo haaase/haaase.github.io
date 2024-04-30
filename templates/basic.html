@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -41,55 +42,61 @@
       </a>
     </li>
     {%- endif -%}
-    {%- if config.extra.social.twitter -%}
-    <li><a href="https://twitter.com/{{ config.extra.social.twitter }}"><i class="fab fa-twitter"></i></a></li>
-    {%- endif -%}
-    {% if config.extra.social.facebook -%}
-    <li><a href="https://www.facebook.com/{{ config.extra.social.facebook }}"><i class="fab fa-facebook"></i></a></li>
-    {%- endif -%}
-    {%- if config.extra.social.instagram -%}
-    <li><a href="https://www.instagram.com/{{ config.extra.social.instagram }}"><i class="fab fa-instagram"></i></a></li>
-    {%- endif -%}
-    {%- if config.extra.social.dribbble -%}
-    <li><a href="https://dribbble.com/{{ config.extra.social.dribbble }}"><i class="fab fa-dribbble"></i></a></li>
-    {%- endif -%}
-    {%- if config.extra.social.weibo -%}
-    <li><a href="https://weibo.com/{{ config.extra.social.weibo }}"><i class="fab fa-weibo"></i></a></li>
-    {%- endif -%}
-    {%- if config.extra.social.linkedin -%}
-    <li><a href="https://linkedin.com/in/{{ config.extra.social.linkedin }}"><i class="fab fa-linkedin"></i></a></li>
-    {%- endif -%}
-    {%- if config.extra.social.flickr -%}
-    <li><a href="https://www.flickr.com/photos/{{ config.extra.social.flickr }}"><i class="fab fa-flickr"></i></a></li>
-    {%- endif -%}
-    {%- if config.extra.social.lastfm -%}
-    <li><a href="https://www.last.fm/user/{{ config.extra.social.lastfm }}"><i class="fa-brands fa-lastfm"></i></a></li>
-    {%- endif -%}
-    {%- if config.extra.social.mail -%}
-    <li><a href="mailto:{{ config.extra.social.mail }}"><i class="fa-solid fa-envelope"></i></a></li>
-    {%- endif -%}
-  </ul>
-  <div class="footer">
-    {% block footer %}
-    <span>Based on the <a href="https://github.com/longfangsong/anatole-zola">anatole theme</a> designed by </span><a href="https://www.caicai.me">CaiCai</a>.
-    <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Published with Zola.</a></div>
-    {% endblock footer %}
-  </div>
-</div>
-<div id="main">
-  {%- if config.extra.show_navigation -%}
-  <div class="page-top animated fadeInDown">
-    <div class="nav">
-      <li><a {% if current_path == "/" or current_path is starting_with("/page/") %}class="current"{% endif %} href="{{ get_url(path="@/_index.md") }}">{{ trans(key="about") }}</a></li>
+      {%- if config.extra.social.twitter -%}
+      <li><a href="https://twitter.com/{{ config.extra.social.twitter }}"><i class="fab fa-twitter"></i></a></li>
+      {%- endif -%}
+      {%- if config.extra.social.mastodon -%}
+      <li><a href="https://{{ config.extra.social.mastodon }}"><i class="fab fa-mastodon"></i></a></li>
+      {%- endif -%}
+      {% if config.extra.social.facebook -%}
+      <li><a href="https://www.facebook.com/{{ config.extra.social.facebook }}"><i class="fab fa-facebook"></i></a></li>
+      {%- endif -%}
+      {%- if config.extra.social.instagram -%}
+      <li><a href="https://www.instagram.com/{{ config.extra.social.instagram }}"><i class="fab fa-instagram"></i></a>
+      </li>
+      {%- endif -%}
+      {%- if config.extra.social.dribbble -%}
+      <li><a href="https://dribbble.com/{{ config.extra.social.dribbble }}"><i class="fab fa-dribbble"></i></a></li>
+      {%- endif -%}
+      {%- if config.extra.social.weibo -%}
+      <li><a href="https://weibo.com/{{ config.extra.social.weibo }}"><i class="fab fa-weibo"></i></a></li>
+      {%- endif -%}
+      {%- if config.extra.social.linkedin -%}
+      <li><a href="https://linkedin.com/in/{{ config.extra.social.linkedin }}"><i class="fab fa-linkedin"></i></a></li>
+      {%- endif -%}
+      {%- if config.extra.social.flickr -%}
+      <li><a href="https://www.flickr.com/photos/{{ config.extra.social.flickr }}"><i class="fab fa-flickr"></i></a>
+      </li>
+      {%- endif -%}
+      {%- if config.extra.social.lastfm -%}
+      <li><a href="https://www.last.fm/user/{{ config.extra.social.lastfm }}"><i class="fa-brands fa-lastfm"></i></a>
+      </li>
+      {%- endif -%}
+      {%- if config.extra.social.mail -%}
+      <li><a href="mailto:{{ config.extra.social.mail }}"><i class="fa-solid fa-envelope"></i></a></li>
+      {%- endif -%}
+    </ul>
+    <div class="footer">
+      {% block footer %}
+      {% endblock footer %}
     </div>
   </div>
-  {%- endif -%}
-  <div class="autopagerize_page_element">
-    <div class="content">
-    {% block content %}
-    {% endblock content %}
+  <div id="main">
+    {%- if config.extra.show_navigation -%}
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        <li><a {% if current_path=="/" or current_path is starting_with("/page/") %}class="current" {% endif %}
+            href="{{ get_url(path=" @/_index.md") }}">{{ trans(key="about") }}</a></li>
+      </div>
+    </div>
+    {%- endif -%}
+    <div class="autopagerize_page_element">
+      <div class="content">
+        {% block content %}
+        {% endblock content %}
+      </div>
     </div>
   </div>
-</div>
 </body>
+
 </html>

@@ -12,9 +12,9 @@ show_navigation = false
 
 [extra.social]
 github = "haaase"
-twitter = "haaase"
 lastfm = "couchpotato321"
 mail = "haas[ät]cs[dot]tu-darmstadt[dot]de"
+mastodon = "types.pl/@haaase"
 
 [languages.en]
 title = "Julian Haas"
